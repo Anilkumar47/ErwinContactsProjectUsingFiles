@@ -1,10 +1,18 @@
 package com.erwin.client;
 
+import com.erwin.files.ReadAndWriteFiles;
 import com.erwin.serviceimpl.OperationsImplementation;
 import com.ewin.Exception.ContactException;
 import java.util.Scanner;
 
 public class ContactMenu {
+
+    static ReadAndWriteFiles rw = new ReadAndWriteFiles();
+
+   
+    public enum operationsMenu {
+        CREATE, UPDATE, SEARCH, DELETE, DISPLAY, EXIT
+    };
 
     public static int integerValidate(String inputValue) {
         int newValue = 0;
@@ -37,17 +45,11 @@ public class ContactMenu {
             return inputValue;
         }
         return "error";
-
     }
+  
 
-    public enum operationsMenu {
-        CREATE, UPDATE, SEARCH, DELETE, DISPLAY, EXIT
-    }
-
-    public static void main(String[] args) throws ContactException {
-
+    public static void menu() {
         Scanner s = new Scanner(System.in);
-
         OperationsImplementation imp = new OperationsImplementation();
         while (true) {
             System.out.println();
@@ -85,6 +87,7 @@ public class ContactMenu {
                         imp.display();
                         break;
                     case EXIT:
+                        rw.writeDataToFile();
                         System.exit(0);
                         break;
                 }
@@ -92,6 +95,12 @@ public class ContactMenu {
                 // System.out.println("Please enter a valid numer");
             }
         }
+
+    }
+
+    public static void main(String[] args) throws ContactException {
+        rw.readDataFromFile();
+        ContactMenu.menu();
 
     }
 

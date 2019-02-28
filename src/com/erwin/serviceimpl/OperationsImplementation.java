@@ -1,17 +1,14 @@
 package com.erwin.serviceimpl;
 
 import com.erwin.client.ContactMenu;
-import static com.erwin.client.ContactMenu.main;
 import static com.erwin.client.ContactMenu.integerValidate;
 import static com.erwin.client.ContactMenu.longValidate;
 import static com.erwin.client.ContactMenu.stringValidate;
 import com.erwin.module.Contact;
 import com.erwin.service.ContactOperations;
-import com.ewin.Exception.ContactException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class OperationsImplementation implements ContactOperations {
@@ -24,7 +21,11 @@ public class OperationsImplementation implements ContactOperations {
         UPDATE_BY_NAME, UPDATE_BY_EMAIL, UPDATE_BY_MOBILE, GO_BACK
     }
 
-    List<Contact> allContacts = new CopyOnWriteArrayList<Contact>();
+    public static List<Contact> getList() {
+        return allContacts;
+    }
+
+    public static List<Contact> allContacts = new CopyOnWriteArrayList<Contact>();
     Scanner s = new Scanner(System.in);
 
     @Override
@@ -77,7 +78,7 @@ public class OperationsImplementation implements ContactOperations {
         if (createMore == 'y' || createMore == 'Y') {
             create();
         }
-
+        getList();
     }
 
     @Override
@@ -132,14 +133,9 @@ public class OperationsImplementation implements ContactOperations {
                         searchByMobile();
                         break;
                     case GO_BACK: {
-                        try {
-                            main(null);
-                        } catch (ContactException ex) {
-                            System.out.println("You cannot go back!");
-                        }
+                        ContactMenu.menu();
+                        break;
                     }
-                    break;
-
                 }
             } catch (Exception e) {
                 // System.out.println("please enter the valid number!");
@@ -221,11 +217,7 @@ public class OperationsImplementation implements ContactOperations {
                         updateByMobile();
                         break;
                     case GO_BACK: {
-                        try {
-                            ContactMenu.main(null);
-                        } catch (ContactException ex) {
-                            Logger.getLogger(OperationsImplementation.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        ContactMenu.menu();
                     }
                     break;
 
@@ -277,11 +269,7 @@ public class OperationsImplementation implements ContactOperations {
                     updateMobile(value, type);
                     break;
                 case 4: {
-                    try {
-                        main(null);
-                    } catch (ContactException ex) {
-                        System.out.println("You cannot go back!");
-                    }
+                    ContactMenu.menu();
                 }
                 break;
             }
